@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/introIv"
+        android:layout_width="@dimen/margin_150dp"
+        android:layout_height="@dimen/margin_150dp"
+        android:layout_marginTop="@dimen/margin_150dp"
+        android:src="@drawable/headphones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTv"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_50dp"
+        android:gravity="center"
+        android:text="@string/listen_music"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_30sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/introIv" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:gravity="center"
+        android:text="@string/description_one"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_15sp"
+        android:textStyle="bold"
+        android:padding="@dimen/margin_10dp"
+        android:justificationMode="inter_word"
+        android:lineSpacingExtra="5dp"
+        app:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTv"
+        tools:targetApi="o" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
