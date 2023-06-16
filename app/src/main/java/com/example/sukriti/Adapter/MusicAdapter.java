@@ -42,6 +42,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             intent.putExtra("songList", (Serializable) musicFiles);
             intent.putExtra("position", position);
             context.startActivity(intent);
+            context.finish();
         });
 
     }

@@ -47,7 +47,6 @@ public class MusicListActivity extends AppCompatActivity {
         binding.musicRv.setLayoutManager(new LinearLayoutManager(this));
 
         checkPermissionAndShowDialog();
-        Log.d("tag>>>","on_create");
 
     }
 
@@ -127,17 +126,14 @@ public class MusicListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("tag>>>","on_resume");
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
-            Log.d("tag>>>","permission");
         } else {
             if(dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
             if (!isMusicFilesLoaded) {
                 loadMusicFiles();
-                Log.d("tag>>>","loadfiles");
             }
         }
     }
