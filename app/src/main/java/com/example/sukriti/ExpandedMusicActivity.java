@@ -16,11 +16,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class ExpandedMusicActivity extends AppCompatActivity {
+public class ExpandedMusicActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener{
     private ActivityExpandedMusicBinding binding;
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    MediaPlayer mediaPlayer;
     private Runnable runnable;
-    private int currentSongIndex = 0;
     private int currentPosition;
     private List<MusicFile> songList;
 
@@ -31,10 +30,9 @@ public class ExpandedMusicActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         songList = (List<MusicFile>) getIntent().getSerializableExtra("songList");
-        currentPosition = getIntent().getIntExtra("position",0);
+        currentPosition = getIntent().getIntExtra("position", 0);
 
-
-        setUpMusicPlayer(songList.get(currentPosition).getTitle(),songList.get(currentPosition).getPath());
+        setUpMusicPlayer(songList.get(currentPosition).getTitle(), songList.get(currentPosition).getPath());
 
         binding.nextButton.setOnClickListener(v -> {
             if (currentPosition < songList.size() - 1) {
@@ -82,7 +80,16 @@ public class ExpandedMusicActivity extends AppCompatActivity {
     }
 
 
-    private void setUpMusicPlayer(String title, String filePath){
+    private void setUpMusicPlayer(String title, String filePath) {
+
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(this);
         binding.musicName.setText(title);
         binding.musicName.setSelected(true);
         startAnimation();
@@ -90,24 +97,29 @@ public class ExpandedMusicActivity extends AppCompatActivity {
         try {
             mediaPlayer.setDataSource(filePath);
             mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         binding.musicSeekbar.setMax(mediaPlayer.getDuration());
-
         setupRunnable();
-        mediaPlayer.start();
-        binding.startDuration.postDelayed(runnable, 1000);
+        binding.startDuration.postDelayed(runnable, 100);
         binding.musicControl.setImageResource(R.drawable.musicpause);
     }
 
-    private void playSong(){
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
+    private void playSong() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
             mediaPlayer.reset();
+        } else {
+            mediaPlayer = new MediaPlayer();
         }
+
         try {
+            binding.musicName.setText(songList.get(currentPosition).getTitle());
             mediaPlayer.setDataSource(songList.get(currentPosition).getPath());
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -115,6 +127,7 @@ public class ExpandedMusicActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     private void setupRunnable() {
         runnable = new Runnable() {
@@ -165,6 +178,17 @@ public class ExpandedMusicActivity extends AppCompatActivity {
 
     private void stopAnimation() {
         binding.circleIv.clearAnimation();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        if(currentPosition < songList.size() -1){
+            currentPosition++;
+            playSong();
+        }else{
+            currentPosition = 0;
+            playSong();
+        }
     }
 
 }

@@ -20,7 +20,7 @@
             android:layout_width="@dimen/margin_60dp"
             android:layout_height="@dimen/margin_60dp"
             android:layout_margin="@dimen/margin_10dp"
-            android:src="@drawable/shape"
+            android:src="@drawable/sukriti_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,28 +29,15 @@
             android:id="@+id/nameTv"
             android:layout_width="@dimen/margin_0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_12dp"
+            android:layout_marginEnd="@dimen/margin_15dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="SHAPE OF YOU"
             android:maxLines="1"
             android:ellipsize="end"
             android:textSize="@dimen/textsize_18sp"
-            app:layout_constraintBottom_toTopOf="@id/durationTv"
-            app:layout_constraintTop_toBottomOf="@id/durationTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/musicIv"
-            app:layout_constraintTop_toTopOf="@id/musicIv" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/durationTv"
-            android:layout_width="@dimen/margin_0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="6:50"
-            android:textSize="@dimen/textsize_15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/musicIv"
+            app:layout_constraintTop_toTopOf="@id/musicIv"
             app:layout_constraintBottom_toBottomOf="@id/musicIv"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

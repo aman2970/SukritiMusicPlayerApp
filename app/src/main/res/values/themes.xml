@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Sukriti" parent="Base.Theme.Sukriti" />
+
+    <style name="CustomSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar_bg</item>
+        <item name="android:minHeight">2dp</item> <!-- Set the height of the line -->
+        <item name="android:thumb">@drawable/thumb_bg</item>
+    </style>
 </resources>

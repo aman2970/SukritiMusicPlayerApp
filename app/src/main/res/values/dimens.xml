@@ -21,4 +21,6 @@
     <dimen name="margin_40dp">40dp</dimen>
     <dimen name="margin_70dp">70dp</dimen>
     <dimen name="margin_60dp">60dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="textsize_22sp">22sp</dimen>
 </resources>

@@ -16,4 +16,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/emptyIv"
+        android:layout_width="@dimen/margin_120dp"
+        android:layout_height="@dimen/margin_120dp"
+        android:src="@drawable/empty"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/emptyTv"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/emptyTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/emptyIv"
+        app:layout_constraintEnd_toEndOf="@id/emptyIv"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/emptyIv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_22sp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/empty_message"/>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,12 +15,13 @@
         android:theme="@style/Theme.Sukriti"
         tools:targetApi="31">
         <activity
-
             android:name=".ExpandedMusicActivity"
             android:exported="false" />
+
         <activity
             android:name=".MusicListActivity"
             android:exported="false" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">

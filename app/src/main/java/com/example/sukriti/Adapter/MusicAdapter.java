@@ -40,10 +40,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ExpandedMusicActivity.class);
             intent.putExtra("songList", (Serializable) musicFiles);
-            intent.putExtra("position",position);
+            intent.putExtra("position", position);
             context.startActivity(intent);
         });
-
 
     }
 
@@ -54,13 +53,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-        public TextView time;
         public CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.nameTv);
-            time = itemView.findViewById(R.id.durationTv);
             cardView = itemView.findViewById(R.id.mainCv);
         }
     }

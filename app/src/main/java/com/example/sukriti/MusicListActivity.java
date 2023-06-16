@@ -1,15 +1,24 @@
 package com.example.sukriti;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.sukriti.Adapter.MusicAdapter;
@@ -25,7 +34,10 @@ import java.util.Objects;
 public class MusicListActivity extends AppCompatActivity {
     private ActivityMusicListBinding binding;
     private List<MusicFile> songs = new ArrayList<>();
-
+    private static final int PERMISSION_REQUEST_CODE = 0;
+    private boolean isMusicFilesLoaded = false;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,18 +46,42 @@ public class MusicListActivity extends AppCompatActivity {
 
         binding.musicRv.setLayoutManager(new LinearLayoutManager(this));
 
-        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-        } else {
-            List<File> musicFiles = getMusicFiles();
+        checkPermissionAndShowDialog();
+        Log.d("tag>>>","on_create");
 
+    }
+
+    private void checkPermissionAndShowDialog() {
+        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            showPermissionDialog();
+        } else {
+            if (!isMusicFilesLoaded) {
+                loadMusicFiles();
+            }
+        }
+    }
+
+
+    private void loadMusicFiles() {
+        if (!songs.isEmpty()) {
+            return;
+        }
+
+        List<File> musicFiles = getMusicFiles();
+
+        if (musicFiles.size() > 0) {
             for (File musicFile : musicFiles) {
                 songs.add(new MusicFile(musicFile.getName(), musicFile.getPath()));
             }
 
-            MusicAdapter adapter = new MusicAdapter(this,songs);
-
+            MusicAdapter adapter = new MusicAdapter(this, songs);
+            binding.emptyIv.setVisibility(View.INVISIBLE);
+            binding.emptyTv.setVisibility(View.INVISIBLE);
             binding.musicRv.setAdapter(adapter);
+            isMusicFilesLoaded = true;
+        } else {
+            binding.emptyIv.setVisibility(View.VISIBLE);
+            binding.emptyTv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -64,26 +100,45 @@ public class MusicListActivity extends AppCompatActivity {
         return filteredFiles;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                List<File> musicFiles = getMusicFiles();
-
-                for (File musicFile : musicFiles) {
-                    songs.add(new MusicFile(musicFile.getName(), musicFile.getPath()));
-                }
-
-                MusicAdapter adapter = new MusicAdapter(this,songs);
-
-                binding.musicRv.setAdapter(adapter);
-            } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-
+    private void showPermissionDialog() {
+        builder  = new AlertDialog.Builder(this);
+        builder.setTitle("Permission Required")
+                .setMessage("This app requires permission to access storage. Grant permission?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showPermissionDialog();
+                    }
+                })
+                .setCancelable(false);
+        dialog = builder.create();
+        dialog.show();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("tag>>>","on_resume");
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            showPermissionDialog();
+            Log.d("tag>>>","permission");
+        } else {
+            if(dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+            if (!isMusicFilesLoaded) {
+                loadMusicFiles();
+                Log.d("tag>>>","loadfiles");
+            }
+        }
+    }
 }

@@ -7,4 +7,5 @@
     <string name="description_one">Indulge in unlimited music exploration. Discover your favorite tunes, curated playlists, and hidden gems. Immerse yourself in a world of personalized musical experiences.</string>
     <string name="description_two">Unleash your music anytime, anywhere, without relying on an internet connection. Experience uninterrupted tunes on the go."</string>
     <string name="description_three">Immerse yourself in uninterrupted music bliss with zero ads. Enjoy your favorite tunes without any distractions</string>
+    <string name="empty_message">Your music list is empty</string>
 </resources>
